@@ -84,6 +84,7 @@ PRODUCT_ID_CC300_20 = 0x111a
 PRODUCT_ID_SILHOUETTE_SD_1 = 0x111c
 PRODUCT_ID_SILHOUETTE_SD_2 = 0x111d
 PRODUCT_ID_SILHOUETTE_CAMEO =  0x1121
+PRODUCT_ID_SILHOUETTE_CAMEO_2 =  0x112B
 PRODUCT_ID_SILHOUETTE_PORTRAIT = 0x1123
 
 DEVICE = [
@@ -92,6 +93,8 @@ DEVICE = [
  { 'vendor_id': 0x0b4d, 'product_id': 0x1121, 'name': 'Silhouette Cameo',
    # margin_top_mm is just for safety when moving backwards with thin media
    # margin_left_mm is a physical limit, but is relative to width_mm!
+   'width_mm':  304, 'length_mm': 3000, 'margin_left_mm':9.0, 'margin_top_mm':1.0, 'regmark': True },
+ { 'vendor_id': 0x0b4d, 'product_id': 0x112B, 'name': 'Silhouette Cameo 2',
    'width_mm':  304, 'length_mm': 3000, 'margin_left_mm':9.0, 'margin_top_mm':1.0, 'regmark': True },
  { 'vendor_id': 0x0b4d, 'product_id': 0x110a, 'name': 'Craft Robo CC200-20',
    'width_mm':  200, 'length_mm': 1000, 'regmark': True },
