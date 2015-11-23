@@ -117,7 +117,7 @@ class SilhouetteCameo:
         Use setup() to specify your needs.
 
         If no_device is True, the usb device is not actually opened, and all
-        generated data is discarded.
+        generated data is dumped to a log file.
 
         The progress_cb is called with the following parameters:
         int(strokes_done), int(strikes_total), str(status_flags)
@@ -132,6 +132,7 @@ class SilhouetteCameo:
 
     if no_device is True:
       self.hardware = { 'name': 'Crashtest Dummy Device' }
+      self.logfile = open('/tmp/silhouette.log.bin', 'wb')
     else:
       for hardware in DEVICE:
         if sys_platform.startswith('win'):
@@ -243,7 +244,9 @@ Alternatively, you can add yourself to group 'lp' and logout/login.""" % (self.h
     """Send a command to the device. Long commands are sent in chunks of 4096 bytes.
        A nonblocking read() is attempted before write(), to find spurious diagnostics."""
 
-    if s.dev is None: return None
+    if s.dev is None:
+        s.logfile.write(string)
+        return None
 
     # robocut/Plotter.cpp:73 says: Send in 4096 byte chunks. Not sure where I got this from, I'm not sure it is actually necessary.
     try:
@@ -640,10 +643,7 @@ Alternatively, you can add yourself to group 'lp' and logout/login.""" % (self.h
     print("mediabox: (%g,%g)-(%g,%g)" % (marginleft,margintop, mediawidth,mediaheight), file=s.log)
 
     # // Begin page definition.
-    try:
-      s.write("FA\x03")   # query someting?
-    except Exception as e:
-      raise ValueError("Write Exception: %s, %s errno=%s\n\nFailed to write the first 3 bytes. Permissions? inf-wizard?" % (type(e), e, e.errno))
+    s.write("FA\x03")   # query someting?
 
     try:
       resp = s.read(timeout=10000)
@@ -682,15 +682,15 @@ Alternatively, you can add yourself to group 'lp' and logout/login.""" % (self.h
     bbox['clip'] = {'urx':width, 'ury':top, 'llx':left, 'lly':height}
     bbox['only'] = bboxonly
     cmd_list = s.plot_cmds(pathlist,bbox,offset[0],offset[1])
-    p += ',' + ','.join(cmd_list)
+    p += '\x03' + '\x03'.join(cmd_list)
 
     if bboxonly == True:
       # move the bouding box
-      p += ",M%d,%d" % (int(0.5+width-bbox['llx']), int(0.5+bbox['ury']))
-      p += ",D%d,%d" % (int(0.5+width-bbox['urx']), int(0.5+bbox['ury']))
-      p += ",D%d,%d" % (int(0.5+width-bbox['urx']), int(0.5+bbox['lly']))
-      p += ",D%d,%d" % (int(0.5+width-bbox['llx']), int(0.5+bbox['lly']))
-      p += ",D%d,%d" % (int(0.5+width-bbox['llx']), int(0.5+bbox['ury']))
+      p += "M%d,%d\x03" % (int(0.5+width-bbox['llx']), int(0.5+bbox['ury']))
+      p += "D%d,%d\x03" % (int(0.5+width-bbox['urx']), int(0.5+bbox['ury']))
+      p += "D%d,%d\x03" % (int(0.5+width-bbox['urx']), int(0.5+bbox['lly']))
+      p += "D%d,%d\x03" % (int(0.5+width-bbox['llx']), int(0.5+bbox['lly']))
+      p += "D%d,%d\x03" % (int(0.5+width-bbox['llx']), int(0.5+bbox['ury']))
 
     trailer = []
     trailer.append("&1,1,1,TB50,0\x03")   #; // TB maybe .. ah I dunno. Need to experiment. No idea what &1,1,1 does either.

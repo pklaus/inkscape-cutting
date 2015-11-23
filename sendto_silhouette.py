@@ -960,12 +960,8 @@ class SendtoSilhouette(inkex.Effect):
       print >>sys.stderr, "Dump written to ",self.dumpname," (",pointcount," points )"
       print >>sys.stderr,"device version: '%s'" % dev.get_version()
       print >>sys.stderr,"driver version: '%s'" % __version__
-      print >>o,"# device version: '%s'" % dev.get_version()
-      print >>o,"# driver version: '%s'" % __version__
       if docname:
-        print >>o,"# docname: '%s'" % docname
         print >>sys.stderr, "docname: '%s'" % docname
-      print >>o, cut
 
     if self.options.pressure == 0:     self.options.pressure = None
     if self.options.speed == 0:        self.options.speed = None
@@ -1000,7 +996,7 @@ class SendtoSilhouette(inkex.Effect):
         bbox['bbox']['ury']*bbox['unit'],
         bbox['bbox']['urx']*bbox['unit'],
         bbox['bbox']['lly']*bbox['unit'],
-        bbox['total']))
+        2))
       print >>self.tty, ""
       state = dev.status()
       write_duration = time.time() - self.write_start_tstamp
