@@ -21,9 +21,9 @@ Origin
 This plugin originated as [inkscape-silhouette][].
 The reason I transformed it to this extension is that I found it
 cumbersome to work with hardware directly from within an Inkscape
-extension. By separating the *Inkscape SVG -> cut position*
-functionality from the *cut position -> hardware instructions*
-and *hardware instructions -> send to hardware device* functionaly
+extension. By separating the **Inkscape SVG -> cut position**
+functionality from the **cut position -> hardware instructions**
+and **hardware instructions -> send to hardware device** functionaly
 I gained a lot of freedom in which device to plot with and which
 programming language to use for it.
 
