@@ -1,0 +1,25 @@
+<inkscape-extension>
+  <_name>Cutting</_name>
+  <id>com.github.jnweiger.inskscape-silhouette</id>
+  <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+  <dependency type="executable" location="extensions">inkex.py</dependency>
+  <param name="active-tab" type="notebook">
+    <page name='cutting' _gui-text='Cutting'>
+      <param name="x_off" type="float" min="-999.0" max="999.0" _gui-text="X-Offset [mm]">0.0</param>
+      <param name="y_off" type="float" min="-999.0" max="999.0" _gui-text="Y-Offset [mm]">0.0</param>
+      <param name="about_who" type="description">inkscape-cutting extension from https://github.com/pklaus/inkscape-cutting by Philipp Klaus [philipp.l.klaus@web.de]</param>
+      <!-- Keep in sync with sendto_silhouette.py line 103 __version__ = ... -->
+      <param name="about_version" type="description">Version 0.1</param>
+    </page>
+  </param>
+
+  <effect needs-live-preview="false" >
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu _name="Export"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command reldir="extensions" interpreter="python">inkscape-cutting/cutting.py</command>
+  </script>
+</inkscape-extension>
