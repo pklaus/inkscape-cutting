@@ -803,9 +803,12 @@ class PrepareCutting(inkex.Effect):
                 mm_path.append((px2mm(pt[0]), px2mm(pt[1])))
                 pointcount += 1
             cuts.append(mm_path)
-    
+
+        result = {}
+        result['cuts'] = cuts
+        result['pointcount'] = pointcount
         with open(self.dumpname, 'w') as o:
-            json.dump(cuts, o)
+            json.dump(result, o)
 
         self.log("Dump written to %s (%d points)" % (self.dumpname, pointcount))
     
