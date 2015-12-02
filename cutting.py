@@ -18,14 +18,14 @@ sys.path.append(os.path.dirname(os.path.abspath(sys.argv[0])))
 
 sys_platform = sys.platform.lower()
 if sys_platform.startswith('win'):
-  sys.path.append('C:\Program Files\Inkscape\share\extensions')
+    sys.path.append('C:\Program Files\Inkscape\share\extensions')
 
 elif sys_platform.startswith('darwin'):
-  sys.path.append('/Applications/Inkscape.app/Contents/Resources/extensions')
+    sys.path.append('/Applications/Inkscape.app/Contents/Resources/extensions')
 
 else:   # linux
-  # if sys_platform.startswith('linux'):
-  sys.path.append('/usr/share/inkscape/extensions')
+    # if sys_platform.startswith('linux'):
+    sys.path.append('/usr/share/inkscape/extensions')
 
 # We will use the inkex module with the predefined Effect base class.
 import inkex
@@ -43,13 +43,18 @@ import json
 N_PAGE_WIDTH = 3200
 N_PAGE_HEIGHT = 800
 
-
 def px2mm(px):
-  '''
-  Convert inkscape pixels to mm.
-  The default inkscape unit, called 'px' is 90dpi
-  '''
-  return px*25.4/90
+    '''
+    Convert inkscape pixels to mm.
+    The default inkscape unit, called 'px' is 90dpi
+    '''
+    return px*25.4/90
+
+def px2in(px):
+    return px/90.
+
+def mm2in(mm):
+    return mm/25.4
 
 # Lifted with impunity from eggbot.py
 def parseLengthWithUnits( str ):
@@ -800,7 +805,7 @@ class PrepareCutting(inkex.Effect):
         for px_path in self.paths:
             mm_path = []
             for pt in px_path:
-                mm_path.append((px2mm(pt[0]), px2mm(pt[1])))
+                mm_path.append((px2in(pt[0]), px2in(pt[1])))
                 pointcount += 1
             cuts.append(mm_path)
 
